@@ -7,8 +7,14 @@ body {
 
 h1 {
   text-align: center;
+  color: black;
+  margin-top: 200px;
 }
-
+p {
+  color: black;
+  text-align: center;
+  margin-top: 10px;
+}
 form {
   max-width: 400px;
   margin: 0 auto;
