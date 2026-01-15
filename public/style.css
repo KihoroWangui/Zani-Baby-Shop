@@ -1,23 +1,77 @@
+/* ---------------- Reset ---------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ---------------- Body ---------------- */
 body {
   background-image: url("images/background.PNG");
   background-size: cover;
-  color: white;
+  background-position: center;
   font-family: Arial, sans-serif;
+  color: white;
 }
 
+/* ---------------- Navigation ---------------- */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #333;
+  padding: 10px 20px;
+}
+
+.navbar-logo img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+.navbar-items {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+  gap: 15px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  transition: 0.3s;
+}
+
+nav ul li a:hover {
+  background-color: #555;
+  border-radius: 4px;
+}
+
+/* ---------------- Headings & Text ---------------- */
 h1 {
   text-align: center;
   color: black;
-  margin-top: 200px;
+  margin-top: 50px;
+  margin-bottom: 10px;
 }
+
 p {
   color: black;
   text-align: center;
-  margin-top: 10px;
+  margin-bottom: 20px;
 }
+
+/* ---------------- Forms ---------------- */
 form {
   max-width: 400px;
-  margin: 0 auto;
+  margin: 20px auto;
   background: rgba(230, 230, 230, 0.8);
   padding: 20px;
   border-radius: 5px;
@@ -33,9 +87,9 @@ select {
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
-  box-sizing: border-box;
 }
 
+/* ---------------- Buttons ---------------- */
 button {
   width: 100%;
   padding: 10px;
@@ -44,98 +98,171 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: 0.3s;
 }
+
 button:hover {
   background-color: #0056b3;
 }
 
-nav {
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 10px;
+/* ---------------- Products Grid (untouched) ---------------- */
+.section,
+.products-grid,
+.features-grid,
+.products-preview,
+.home-grid {
+  display: grid;
+  gap: 20px;
 }
 
-nav ul {
-  list-style-type: none;
-  padding: 0;
+.products-grid {
+  grid-template-columns: repeat(3, 1fr);
+  margin: 20px;
+}
+
+@media (max-width: 900px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------- Product / Feature Cards (untouched) ---------------- */
+.product-card,
+.feature-card {
+  background: rgba(255, 255, 255, 0.9);
+  color: black;
+  padding: 15px;
+  border-radius: 5px;
+  text-align: center;
   display: flex;
-  justify-content: center;
-}
-
-nav ul li {
-  margin: 0 15px;
-}
-
-nav ul li a {
-  text-decoration: none;
-  color: rgb(206, 203, 203);
-  font-weight: bold;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial, sans-serif;
-}
-
-nav {
-  display: flex;
-  align-items: center;
-  background-color: #333;
-  padding: 10px;
-}
-
-.navbar-logo img {
-  height: 40px;
-  width: auto;
-  margin-right: 20px;
-}
-
-.navbar-items {
-  display: flex;
+  flex-direction: column;
   gap: 10px;
 }
 
-nav a {
+.product-card img,
+.feature-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+/* Product price */
+.price {
+  font-weight: bold;
+  color: #007bff;
+  font-size: 1.1em;
+}
+
+/* Add to Cart button */
+.add-to-cart {
+  padding: 8px 12px;
+  background-color: #28a745;
   color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: auto;
+  transition: 0.3s;
+}
+
+.add-to-cart:hover {
+  background-color: #218838;
+}
+
+/* ---------------- Buttons for Homepage ---------------- */
+.btn,
+.btn-secondary {
+  display: inline-block;
   text-decoration: none;
-  padding: 10px;
-}
-
-nav a:hover {
-  background-color: #555;
-}
-
-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #333;
   padding: 10px 20px;
-}
-
-.navbar-logo img {
-  height: 40px;
-  width: auto;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-.navbar-items {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-nav a {
+  background-color: #007bff;
   color: white;
-  text-decoration: none;
-  padding: 10px;
+  border-radius: 4px;
+  margin-top: 10px;
+  transition: 0.3s;
 }
 
-nav a:hover {
+.btn-secondary {
   background-color: #555;
+}
+
+.btn:hover,
+.btn-secondary:hover {
+  opacity: 0.8;
+}
+
+/* ---------------- Home Page Horizontal Image Containers ---------------- */
+
+/* Overriding the previous grid display on .features-grid inside .features */
+.features > .features-grid {
+  display: flex !important;      /* flex container */
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 30px auto;
+}
+
+/* Horizontal flex container for .products-preview inside .home-images */
+.home-images > .products-preview {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 30px auto 10px;
+}
+
+/* Images inside both containers */
+.features img,
+.home-images img {
+  width: 300px;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.features img:hover,
+.home-images img:hover {
+  transform: scale(1.05);
+}
+
+/* ---------------- Responsive adjustments ---------------- */
+@media (max-width: 1024px) {
+  .features img,
+  .home-images img {
+    width: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Stack vertically on smaller screens */
+  .features > .features-grid,
+  .home-images > .products-preview {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .features img,
+  .home-images img {
+    width: 80%;
+    margin-bottom: 20px;
+  }
+}
+
+/* ---------------- Footer ---------------- */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+  margin-top: 40px;
 }
