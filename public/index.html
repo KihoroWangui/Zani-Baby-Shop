@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- Navigation -->
     <nav>
       <a href="/" class="navbar-logo">
         <img src="images/logo.png" alt="Logo" />
@@ -14,10 +15,58 @@
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="products.html">Products</a></li>
-        <li><a href="About">About</a></li>
+        <li><a href="about.html">About</a></li>
       </ul>
     </nav>
-    <h1>Welcome to Zani Baby Shop</h1>
-    <p>Mama's Best Shop for All Things Baby</p>
+
+    <!-- Hero Section -->
+    <header class="hero">
+      <h1>Welcome to Zani Baby Shop</h1>
+      <p id="tagline">Mama's Best Shop for All Things Baby</p>
+      <a href="products.html" class="btn">Shop Now</a>
+    </header>
+
+    <!-- Why Choose Us -->
+    <section class="features">
+      <h2>Why Parents Love Us</h2>
+      <div class="features-grid">
+        <div class="feature-card">🍼 Safe & Quality Products</div>
+        <div class="feature-card">👶 Trusted by Parents</div>
+        <div class="feature-card">🚚 Fast & Reliable Delivery</div>
+      </div>
+    </section>
+
+    <!-- Featured Products Preview -->
+    <section class="featured-products">
+      <h2>Featured Products</h2>
+      <div class="products-preview">
+        <img src="images/1.png" alt="Product 1" />
+        <img src="images/2.png" alt="Product 2" />
+        <img src="images/3.png" alt="Product 3" />
+        <img src="images/4.png" alt="Product 4" />
+      </div>
+      <a href="products.html" class="btn-secondary">View All Products</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2026 Zani Baby Shop. All rights reserved.</p>
+    </footer>
+
+    <!-- Small Dynamic Script -->
+    <script>
+      const taglines = [
+        "Mama's Best Shop for All Things Baby",
+        "Caring for Your Little Ones",
+        "Quality Baby Essentials You Can Trust",
+        "Where Every Baby Matters"
+      ];
+
+      let index = 0;
+      setInterval(() => {
+        document.getElementById("tagline").textContent = taglines[index];
+        index = (index + 1) % taglines.length;
+      }, 3000);
+    </script>
   </body>
 </html>
