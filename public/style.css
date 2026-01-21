@@ -1,10 +1,8 @@
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 
 body {
   min-height: 100vh;
@@ -17,13 +15,14 @@ body {
   background-attachment: fixed; 
 }
 
-
+/* ---------------- Navbar ---------------- */
 nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: #100;
   padding: 10px 20px;
+  position: relative;
 }
 
 .navbar-logo img {
@@ -43,35 +42,7 @@ nav ul {
   display: flex;
   gap: 15px;
 }
-@media (max-width: 768px) {
-  nav ul {
-    flex-direction: column; 
-    display: none;           
-    background-color: #007bff;
-    position: absolute;
-    top: 60px;              
-    right: 0;
-    width: 200px;
-    padding: 10px;
-    border-radius: 8px;
-  }
 
-  nav ul.active {
-    display: flex;         
-  }
-
-  .hamburger {
-    display: block;          
-    cursor: pointer;
-    font-size: 24px;
-    color: white;
-  }
-}
-
-
-.hamburger {
-  display: none;
-}
 nav ul li a {
   text-decoration: none;
   color: white;
@@ -85,25 +56,53 @@ nav ul li a:hover {
   border-radius: 4px;
 }
 
+/* ---------------- Hamburger for Mobile ---------------- */
+.hamburger {
+  display: none;
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+}
 
-h1 {
+/* ---------------- Responsive ---------------- */
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    display: none;           
+    background-color: #007bff;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    width: 180px;
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 1000;
+  }
+
+  nav ul.active {
+    display: flex;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}
+
+/* ---------------- Headings ---------------- */
+h1, h2 {
   text-align: center;
   color: blue;
   margin-top: 50px;
   margin-bottom: 10px;
 }
-h2 {
-  text-align: center;
-  color: blue;
-  margin-top: 50px;
-  margin-bottom: 10px;
-}
+
 p {
   color: black;
   text-align: center;
   margin-bottom: 20px;
 }
 
+/* ---------------- Forms ---------------- */
 form {
   max-width: 400px;
   margin: 20px auto;
@@ -124,7 +123,7 @@ select {
   border-radius: 4px;
 }
 
-
+/* ---------------- Buttons ---------------- */
 button {
   width: 100%;
   padding: 10px;
@@ -140,7 +139,35 @@ button:hover {
   background-color: #0056b3;
 }
 
+.btn,
+.btn-secondary {
+  display: block;              
+  width: fit-content;
+  margin: 40px auto;           
+  padding: 12px 28px;
 
+  background-color: #007bff;   
+  color: white;
+  text-decoration: none;
+
+  border-radius: 999px;        
+  font-size: 16px;
+  font-weight: 600;
+
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.btn:hover,
+.btn-secondary:hover {
+  opacity: 0.8;
+}
+
+/* ---------------- Sections & Grids ---------------- */
 .section,
 .products-grid,
 .features-grid,
@@ -167,7 +194,7 @@ button:hover {
   }
 }
 
-
+/* ---------------- Product Cards ---------------- */
 .product-card,
 .feature-card {
   background: rgba(255, 255, 255, 0.9);
@@ -178,23 +205,26 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
 }
 
 .product-card img,
 .feature-card img {
   width: 100%;
-  height: auto;
+  max-width: 50%;
+  max-height: 50%;
   border-radius: 5px;
+  object-fit: cover;
 }
 
-/* Product price */
 .price {
   font-weight: bold;
   color: #007bff;
   font-size: 1.1em;
 }
 
-/* Add to Cart button */
 .add-to-cart {
   padding: 8px 12px;
   background-color: #28a745;
@@ -210,58 +240,16 @@ button:hover {
   background-color: #218838;
 }
 
-/* ---------------- Buttons for Homepage ---------------- */
-.btn,
-.btn-secondary {
-  display: block;              
-  width: fit-content;
-  margin: 40px auto;           
-  padding: 12px 28px;
-
-  background-color: #007bff;   
-  color: white;
-  text-decoration: none;
-
-  border-radius: 999px;        
-  font-size: 16px;
-  font-weight: 600;
-
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.btn-secondary:hover {
-  background-color: #0056b3;
-  transform: translateY(-2px);
-}
-
-
-
-.btn:hover,
-.btn-secondary:hover {
-  opacity: 0.8;
-}
-
-
-
-.features > .features-grid {
-  display: flex !important;     
+/* ---------------- Feature & Home Images ---------------- */
+.features > .features-grid,
+.home-images > .products-preview {
+  display: flex !important;
   justify-content: center;
   gap: 30px;
   flex-wrap: wrap;
   max-width: 1000px;
   margin: 30px auto;
 }
-
-
-.home-images > .products-preview {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
-  max-width: 1000px;
-  margin: 30px auto 10px;
-}
-
 
 .features img,
 .home-images img {
@@ -278,7 +266,6 @@ button:hover {
   transform: scale(1.05);
 }
 
-
 @media (max-width: 1024px) {
   .features img,
   .home-images img {
@@ -287,7 +274,6 @@ button:hover {
 }
 
 @media (max-width: 768px) {
-  
   .features > .features-grid,
   .home-images > .products-preview {
     flex-direction: column;
@@ -300,19 +286,8 @@ button:hover {
     margin-bottom: 20px;
   }
 }
-.product-card {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 500px;
-}
 
-.product-card img {
-  max-width: 50%;
-  max-height: 50%;
-}
-
-
+/* ---------------- Footer ---------------- */
 footer {
   text-align: center;
   padding: 20px;
