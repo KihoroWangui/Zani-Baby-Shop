@@ -43,7 +43,35 @@ nav ul {
   display: flex;
   gap: 15px;
 }
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column; 
+    display: none;           
+    background-color: #007bff;
+    position: absolute;
+    top: 60px;              
+    right: 0;
+    width: 200px;
+    padding: 10px;
+    border-radius: 8px;
+  }
 
+  nav ul.active {
+    display: flex;         
+  }
+
+  .hamburger {
+    display: block;          
+    cursor: pointer;
+    font-size: 24px;
+    color: white;
+  }
+}
+
+
+.hamburger {
+  display: none;
+}
 nav ul li a {
   text-decoration: none;
   color: white;
