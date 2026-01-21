@@ -1,11 +1,11 @@
-/* ---------------- Reset ---------------- */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* ---------------- Body ---------------- */
+
 body {
   background-image: url("images/background.PNG");
   background-size: cover;
@@ -14,12 +14,12 @@ body {
   color: white;
 }
 
-/* ---------------- Navigation ---------------- */
+
 nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #333;
+  background-color: #100;
   padding: 10px 20px;
 }
 
@@ -54,21 +54,25 @@ nav ul li a:hover {
   border-radius: 4px;
 }
 
-/* ---------------- Headings & Text ---------------- */
+
 h1 {
   text-align: center;
-  color: black;
+  color: blue;
   margin-top: 50px;
   margin-bottom: 10px;
 }
-
+h2 {
+  text-align: center;
+  color: blue;
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
 p {
   color: black;
   text-align: center;
   margin-bottom: 20px;
 }
 
-/* ---------------- Forms ---------------- */
 form {
   max-width: 400px;
   margin: 20px auto;
@@ -89,7 +93,7 @@ select {
   border-radius: 4px;
 }
 
-/* ---------------- Buttons ---------------- */
+
 button {
   width: 100%;
   padding: 10px;
@@ -105,7 +109,7 @@ button:hover {
   background-color: #0056b3;
 }
 
-/* ---------------- Products Grid (untouched) ---------------- */
+
 .section,
 .products-grid,
 .features-grid,
@@ -132,7 +136,7 @@ button:hover {
   }
 }
 
-/* ---------------- Product / Feature Cards (untouched) ---------------- */
+
 .product-card,
 .feature-card {
   background: rgba(255, 255, 255, 0.9);
@@ -178,30 +182,38 @@ button:hover {
 /* ---------------- Buttons for Homepage ---------------- */
 .btn,
 .btn-secondary {
-  display: inline-block;
-  text-decoration: none;
-  padding: 10px 20px;
-  background-color: #007bff;
+  display: block;              
+  width: fit-content;
+  margin: 40px auto;           
+  padding: 12px 28px;
+
+  background-color: #007bff;   
   color: white;
-  border-radius: 4px;
-  margin-top: 10px;
-  transition: 0.3s;
+  text-decoration: none;
+
+  border-radius: 999px;        
+  font-size: 16px;
+  font-weight: 600;
+
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.btn-secondary {
-  background-color: #555;
+.btn-secondary:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
 }
+
+
 
 .btn:hover,
 .btn-secondary:hover {
   opacity: 0.8;
 }
 
-/* ---------------- Home Page Horizontal Image Containers ---------------- */
 
-/* Overriding the previous grid display on .features-grid inside .features */
+
 .features > .features-grid {
-  display: flex !important;      /* flex container */
+  display: flex !important;     
   justify-content: center;
   gap: 30px;
   flex-wrap: wrap;
@@ -209,7 +221,7 @@ button:hover {
   margin: 30px auto;
 }
 
-/* Horizontal flex container for .products-preview inside .home-images */
+
 .home-images > .products-preview {
   display: flex;
   justify-content: center;
@@ -219,7 +231,7 @@ button:hover {
   margin: 30px auto 10px;
 }
 
-/* Images inside both containers */
+
 .features img,
 .home-images img {
   width: 300px;
@@ -235,7 +247,7 @@ button:hover {
   transform: scale(1.05);
 }
 
-/* ---------------- Responsive adjustments ---------------- */
+
 @media (max-width: 1024px) {
   .features img,
   .home-images img {
@@ -244,7 +256,7 @@ button:hover {
 }
 
 @media (max-width: 768px) {
-  /* Stack vertically on smaller screens */
+  
   .features > .features-grid,
   .home-images > .products-preview {
     flex-direction: column;
@@ -257,8 +269,19 @@ button:hover {
     margin-bottom: 20px;
   }
 }
+.product-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+}
 
-/* ---------------- Footer ---------------- */
+.product-card img {
+  max-width: 50%;
+  max-height: 50%;
+}
+
+
 footer {
   text-align: center;
   padding: 20px;
