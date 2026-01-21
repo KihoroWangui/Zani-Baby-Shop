@@ -7,11 +7,14 @@
 
 
 body {
-  background-image: url("/images/background.PNG");
+  min-height: 100vh;
+  margin: 0;
+
+  background-image: url("/images/background.png");
   background-size: cover;
   background-position: center;
-  font-family: Arial, sans-serif;
- 
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
 }
 
 
