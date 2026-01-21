@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart - Zani Baby Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    input[type="number"] {
+      width: 60px;
+    }
+    #checkout-btn {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="/" class="navbar-logo">
+      <img src="images/logo.png" alt="Logo" />
+    </a>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="cart.html">Cart</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="cart-section">
+      <h1>Your Cart</h1>
+      <div id="cart-container"></div>
+      <h3 id="total-amount"></h3>
+      <button id="checkout-btn">Proceed to Payment</button>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2026 Zani Baby Shop. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const container = document.getElementById('cart-container');
+    const totalDisplay = document.getElementById('total-amount');
+    const checkoutBtn = document.getElementById('checkout-btn');
+
+    function renderCart() {
+      if(cart.length === 0) {
+        container.innerHTML = '<p>Your cart is empty.</p>';
+        totalDisplay.textContent = '';
+        checkoutBtn.disabled = true;
+        return;
+      }
+
+      let table = '<table><tr><th>Product</th><th>Price</th><th>Quantity</th><th>Subtotal</th><th>Remove</th></tr>';
+      cart.forEach((item, index) => {
+        if(!item.quantity) item.quantity = 1;
+        const subtotal = item.price * item.quantity;
+        table += `
+          <tr>
+            <td>${item.name}</td>
+            <td>KSh ${item.price}</td>
+            <td><input type="number" min="1" value="${item.quantity}" data-index="${index}"></td>
+            <td>KSh ${subtotal}</td>
+            <td><button data-index="${index}" class="remove-btn">Remove</button></td>
+          </tr>
+        `;
+      });
+      table += '</table>';
+      container.innerHTML = table;
+
+      updateTotal();
+      attachEvents();
+    }
+
+    function updateTotal() {
+      const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      totalDisplay.textContent = `Total: KSh ${total}`;
+    }
+
+    function attachEvents() {
+      // Remove buttons
+      document.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const index = parseInt(btn.dataset.index);
+          cart.splice(index, 1);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          renderCart();
+        });
+      });
+
+      // Quantity change
+      document.querySelectorAll('input[type="number"]').forEach(input => {
+        input.addEventListener('change', () => {
+          const index = parseInt(input.dataset.index);
+          const value = parseInt(input.value);
+          if(value < 1) input.value = 1;
+          cart[index].quantity = value;
+          localStorage.setItem('cart', JSON.stringify(cart));
+          renderCart();
+        });
+      });
+    }
+
+    // Checkout button
+    checkoutBtn.addEventListener('click', () => {
+      if(cart.length === 0) return;
+      alert("Thank you for your purchase!\nTotal: KSh " + cart.reduce((sum,item)=>sum + item.price*item.quantity,0));
+      cart = [];
+      localStorage.removeItem('cart');
+      renderCart();
+    });
+
+    renderCart();
+  </script>
+</body>
+</html>
