@@ -1,0 +1,72 @@
+import React, { useState } from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+
+
+
+import Login from "./pages/login";
+import Signup from "./pages/signup";
+import PostErrand from "./pages/errand";
+import ViewErrands from "./pages/ViewErrands";
+
+// ------------------- STYLES -------------------
+const navbar = { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 20px", backgroundColor: "rgba(15, 23, 42, 0.95)", boxShadow: "0 4px 12px rgba(0,0,0,0.4)", flexWrap: "wrap", position: "relative" };
+const logoStyle = { height: "40px", marginRight: "12px" };
+const navLinksContainer = { display: "flex", flexDirection: "column", position: "absolute", top: "60px", right: "20px", backgroundColor: "rgba(15, 23, 42, 0.95)", borderRadius: "8px", padding: "10px", gap: "10px", width: "180px", boxShadow: "0 8px 20px rgba(0,0,0,0.4)", zIndex: 100 };
+const navLinkStyle = { color: "#e5e7eb", textDecoration: "none", fontWeight: "600" };
+const hamburgerContainer = { display: "flex", flexDirection: "column", justifyContent: "space-between", width: "25px", height: "18px", cursor: "pointer" };
+const hamburgerLine = { height: "3px", width: "100%", backgroundColor: "#fff", borderRadius: "2px" };
+const darkSection = { padding: "40px 20px", maxWidth: "1100px", margin: "0 auto" };
+const featureGrid = { display: "flex", gap: "20px", flexWrap: "wrap", justifyContent: "center" };
+const darkCard = { flex: "1 1 260px", minWidth: "260px", maxWidth: "320px", backgroundColor: "rgba(15, 23, 42, 0.85)", borderRadius: "16px", padding: "18px", boxShadow: "0 12px 30px rgba(0,0,0,0.5)" };
+const cardImage = { width: "100%", height: "180px", objectFit: "cover", borderRadius: "12px" };
+const whiteSection = { backgroundColor: "#ffffff", padding: "50px 20px", color: "#111827" };
+const whiteContainer = { maxWidth: "900px", margin: "0 auto", textAlign: "center" };
+const title = { fontSize: "2.2rem", fontWeight: "bold", marginBottom: "12px" };
+const subtitle = { fontSize: "1rem", color: "#374151", marginBottom: "30px" };
+const ctaButtons = { display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" };
+const greenButton = { background: "linear-gradient(135deg, #22c55e, #16a34a)", color: "#fff", padding: "12px 24px", border: "none", borderRadius: "8px", fontWeight: "bold", cursor: "pointer", boxShadow: "0 4px 10px rgba(0,0,0,0.3)" };
+const blueButton = { background: "linear-gradient(135deg, #2563eb, #1e40af)", color: "#fff", padding: "12px 24px", border: "none", borderRadius: "8px", fontWeight: "bold", cursor: "pointer", boxShadow: "0 4px 10px rgba(0,0,0,0.3)" };
+const yellowSection = { backgroundColor: "#facc15", padding: "60px 20px" };
+const yellowContainer = { maxWidth: "1000px", margin: "0 auto" };
+const howTitle = { fontSize: "2rem", fontWeight: "bold", marginBottom: "30px", textAlign: "center", color: "#111827" };
+const howGrid = { display: "flex", gap: "20px", flexWrap: "wrap", justifyContent: "center" };
+const howCard = { backgroundColor: "#ffffff", borderRadius: "16px", padding: "20px", width: "260px", textAlign: "center", boxShadow: "0 10px 25px rgba(0,0,0,0.35)" };
+const howImage = { width: "100%", height: "150px", objectFit: "cover", borderRadius: "12px", marginBottom: "12px" };
+const howText = { fontSize: "1rem", fontWeight: "bold", color: "#111827" };
+
+// ------------------- COMPONENTS -------------------
+const HowCardComponent = ({ image, title }) => (
+  <div style={howCard}>
+    <img src={image} alt={title} style={howImage} />
+    <p style={howText}>{title}</p>
+  </div>
+);
+
+const Home = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg, #0f172a, #064e3b)", fontFamily: "Arial, sans-serif" }}>
+      {/* Navbar */}
+      <nav style={navbar}>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <img src={logo} alt="Logo" style={logoStyle} />
+        </div>
+
+        {/* Hamburger */}
+        <div style={hamburgerContainer} onClick={() => setMenuOpen(!menuOpen)}>
+          <div style={hamburgerLine}></div>
+          <div style={hamburgerLine}></div>
+          <div style={hamburgerLine}></div>
+        </div>
+
+        {/* Links */}
+        <div style={{ ...navLinksContainer, display: menuOpen ? "flex" : "none" }}>
+          <Link to="/" style={navLinkStyle} onClick={() => setMenuOpen(false)}>Home</Link>
+          <Link to="/errand" style={navLinkStyle} onClick={() => setMenuOpen(false)}>Post Errand</Link>
+          <Link to="/ViewErrands" style={navLinkStyle} onClick={() => setMenuOpen(false)}>View Errands</Link>
+          <Link to="/signup" style={navLinkStyle} onClick={() => setMenuOpen(false)}>Sign Up</Link>
+          <Link to="/login" style={navLinkStyle} onClick={() => setMenuOpen(false)}>Login</Link>
+        </div>
+      </nav>
