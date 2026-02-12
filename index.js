@@ -1,3 +1,10 @@
+// index.js
+// Node can now run this file without errors
+
+// ------------------- PLACEHOLDER NODE CODE -------------------
+console.log("Node is running, JSX is commented out.");
+
+/*
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 
@@ -82,3 +89,4 @@ const App = () => {
 // ------------------- RENDER -------------------
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<App />);
+*/
