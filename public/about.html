@@ -1,24 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zani Baby Shop</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <nav>
-      <a href="/" class="navbar-logo">
-        <img src="images/logo.png" alt="Logo" />
-      </a>
-       <div class="hamburger">&#9776;</div>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="products.html">Products</a></li>
-        <li><a href="about.html">About</a></li>
-      </ul>
-    </nav>
-   <p>We are a business committed to providing
-   quality baby products within Kenya and beyond.</p>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zani Baby Shop</title>
+  <style>
+    /* Reset and global */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      color: white;
+      min-height: 100vh;
+      background-image: url('images/background.png'); /* background */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    /* Navbar */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: rgba(0, 0, 0, 0.8); /* semi-transparent black */
+      padding: 10px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav .navbar-logo img {
+      height: 50px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav ul li a {
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    nav .hamburger {
+      display: none;
+      font-size: 28px;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* About content */
+    .about-container {
+      max-width: 800px;
+      margin: 150px auto; /* push below navbar */
+      padding: 0 20px;
+      text-align: center;
+      font-size: 1.2rem;
+      line-height: 1.8;
+      background-color: rgba(0,0,0,0.5); /* subtle overlay for readability */
+      border-radius: 10px;
+    }
+
+    /* Mobile styles */
+    @media screen and (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 100%;
+        background-color: rgba(0,0,0,0.9);
+        display: none;
+        padding: 10px 0;
+      }
+
+      nav ul li {
+        text-align: center;
+        margin: 10px 0;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      nav .hamburger {
+        display: block;
+      }
+
+      .about-container {
+        margin: 100px 20px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <a href="/" class="navbar-logo">
+      <img src="images/logo.png" alt="Logo" />
+    </a>
+    <div class="hamburger">&#9776;</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <!-- About content -->
+  <div class="about-container">
+    <p>We are a business committed to providing quality baby products within Kenya and beyond.</p>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // Hamburger toggle
+    const hamburger = document.querySelector(".hamburger");
+    const navMenu = document.querySelector("nav ul");
+
+    hamburger.addEventListener("click", () => {
+      navMenu.classList.toggle("active");
+    });
+  </script>
+
+</body>
 </html>
