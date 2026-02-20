@@ -103,22 +103,24 @@
     @media screen and (max-width: 768px) {
       nav ul {
         flex-direction: column;
-        position: absolute;
-        top: 70px;
-        right: 0;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100%;
         background-color: black;
-        width: 100%;
-        display: none;
-        padding: 10px 0;
+        width: 60%;
+        display: flex;
+        padding-top: 70px;
+        gap: 20px;
+        transition: right 0.3s ease-in-out;
       }
 
       nav ul li {
         text-align: center;
-        margin: 10px 0;
       }
 
       nav ul.active {
-        display: flex;
+        right: 0;
       }
 
       nav .hamburger {
@@ -204,9 +206,16 @@
     // Hamburger toggle
     const hamburger = document.querySelector(".hamburger");
     const navMenu = document.querySelector("nav ul");
-    s
+
     hamburger.addEventListener("click", () => {
       navMenu.classList.toggle("active");
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+        navMenu.classList.remove("active");
+      }
     });
   </script>
 
