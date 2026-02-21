@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Zani Baby Shop - User Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-image: url('./images/background.png');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      min-height: 100vh;
+    }
+
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: black;
+      padding: 10px 20px;
+      position: sticky;
+      top: 0;
+    }
+    nav a { color: white; text-decoration: none; font-weight: bold; }
+    nav ul { list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; }
+    nav ul li a:hover { text-decoration: underline; }
+
+    /* Auth Form */
+    .auth-container {
+      max-width: 350px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: rgba(0,0,0,0.7);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .auth-container input { padding: 10px; border-radius: 5px; border: none; width: 100%; }
+    .button-group { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+    .button-group button { padding: 10px; border-radius: 5px; border: none; cursor: pointer; font-weight: bold; background-color: #1e90ff; transition: 0.3s; }
+    .button-group button:hover { background-color: #0b6fc2; }
+    .user-info { text-align: center; font-weight: bold; }
+
+    /* Dashboard */
+    .dashboard {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 25px;
+      background-color: rgba(0,0,0,0.7);
+      border-radius: 10px;
+      display: none;
+    }
+    .dashboard h2 { margin-top: 0; text-align: center; }
+    .dashboard .section { margin: 15px 0; }
+    .dashboard .section h3 { margin-bottom: 8px; }
+    .dashboard .orders { list-style: none; padding: 0; }
+    .dashboard .orders li { padding: 8px; border-bottom: 1px solid #ccc; color: white; }
+
+    /* Responsive */
+    @media screen and (max-width: 768px) {
+      .auth-container, .dashboard { width: 90%; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <a href="/">Zani Baby Shop</a>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="auth.html">Login</a></li>
+    </ul>
+  </nav>
+
+  <!-- Auth Form -->
+  <div class="auth-container">
+    <h2>Account Access</h2>
+    <div id="user-info" class="user-info">Not logged in</div>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <div class="button-group">
+      <button onclick="signUp()">Sign Up</button>
+      <button onclick="signIn()">Login</button>
+      <button onclick="logOut()">Logout</button>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="dashboard">
+    <h2>Welcome, <span id="dashboard-name"></span>!</h2>
+    <div class="section">
+      <h3>Account Details</h3>
+      <p>Email: <span id="dashboard-email"></span></p>
+      <p>Last Login: <span id="dashboard-lastlogin"></span></p>
+    </div>
+
+    <div class="section">
+      <h3>Your Orders</h3>
+      <ul class="orders">
+        <li>Order #12345 - Pending</li>
+        <li>Order #12346 - Shipped</li>
+        <li>Order #12347 - Delivered</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <button onclick="logOut()">Logout</button>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { 
+      getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, 
+      onAuthStateChanged, GoogleAuthProvider, signInWithPopup 
+    } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAMICtGNNREZijhsUlBVx2QBhSg82Mxc0Q",
+      authDomain: "zani-baby-shop.firebaseapp.com",
+      projectId: "zani-baby-shop",
+      storageBucket: "zani-baby-shop.firebasestorage.app",
+      messagingSenderId: "736412898141",
+      appId: "1:736412898141:web:02a0b9fd12f711c72e0eb4",
+      measurementId: "G-NR1RTLX32G"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
+
+    const userInfo = document.getElementById("user-info");
+    const dashboard = document.getElementById("dashboard");
+    const dashboardName = document.getElementById("dashboard-name");
+    const dashboardEmail = document.getElementById("dashboard-email");
+    const dashboardLastLogin = document.getElementById("dashboard-lastlogin");
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        const name = user.displayName || user.email.split("@")[0];
+        dashboardName.innerText = name;
+        dashboardEmail.innerText = user.email;
+        dashboardLastLogin.innerText = user.metadata.lastSignInTime;
+
+        userInfo.innerText = `Logged in as: ${user.email}`;
+        dashboard.style.display = "block";
+        document.querySelector('.auth-container').style.display = "none";
+      } else {
+        dashboard.style.display = "none";
+        document.querySelector('.auth-container').style.display = "flex";
+        userInfo.innerText = "Not logged in";
+      }
+    });
+
+    window.signUp = async () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        alert(`Signed up: ${userCredential.user.email}`);
+      } catch (error) { alert(error.message); }
+    };
+
+    window.signIn = async () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        alert(`Logged in: ${userCredential.user.email}`);
+      } catch (error) { alert(error.message); }
+    };
+
+    window.signInWithGoogle = async () => {
+      try {
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
+        alert(`Logged in as: ${user.displayName} (${user.email})`);
+      } catch (error) { alert(error.message); }
+    };
+
+    window.logOut = async () => {
+      await signOut(auth);
+      alert("Logged out");
+    };
+  </script>
+</body>
+</html>
