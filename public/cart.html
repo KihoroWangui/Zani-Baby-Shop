@@ -63,6 +63,11 @@
   </footer>
 
   <script>
+    // ----------------------------
+    // CONFIG: Set your public backend URL
+    // ----------------------------
+    const API_URL = "https://clocks-park-values-southern.trycloudflare.com"; // Cloudflare tunnel URL
+
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     const container = document.getElementById('cart-container');
     const totalDisplay = document.getElementById('total-amount');
@@ -126,42 +131,44 @@
       });
     }
 
-   // Assuming you have a checkout button element
-checkoutBtn.addEventListener('click', async () => {
-  if(cart.length === 0) return alert("Your cart is empty!");
+    // ----------------------------
+    // CHECKOUT / STK PUSH
+    // ----------------------------
+    checkoutBtn.addEventListener('click', async () => {
+      if(cart.length === 0) return alert("Your cart is empty!");
 
-  const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  // Ask the user for their phone number
-  const phone = prompt("Enter your phone number (e.g., 2547XXXXXXXX):");
-  if (!phone) return alert("Payment cancelled. Phone number is required.");
+      // Ask the user for their phone number
+      const phone = prompt("Enter your phone number (e.g., 2547XXXXXXXX):");
+      if (!phone) return alert("Payment cancelled. Phone number is required.");
 
-  try {
-    // Call your backend STK Push endpoint
-    const response = await fetch("http://localhost:3001/stkpush", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ phone, amount: totalAmount }),
+      try {
+        // Call your backend STK Push endpoint
+        const response = await fetch(`${API_URL}/stkpush`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone, amount: totalAmount }),
+        });
+
+        const data = await response.json();
+        console.log("STK Push response:", data);
+
+        if (data.ResponseCode === "0") {
+          alert(`STK Push sent to ${phone}! Please check your phone to complete payment.`);
+          
+          // Optional: clear the cart after initiating payment
+          cart = [];
+          localStorage.removeItem('cart');
+          renderCart();
+        } else {
+          alert("Payment initiation failed. Please try again.");
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Error initiating payment. Check console for details.");
+      }
     });
-
-    const data = await response.json();
-    console.log("STK Push response:", data);
-
-    if (data.ResponseCode === "0") {
-      alert(`STK Push sent to ${phone}! Please check your phone to complete payment.`);
-      
-      // Optional: clear the cart after initiating payment
-      cart = [];
-      localStorage.removeItem('cart');
-      renderCart();
-    } else {
-      alert("Payment initiation failed. Please try again.");
-    }
-  } catch (error) {
-    console.error(error);
-    alert("Error initiating payment. Check console for details.");
-  }
-});
 
     renderCart();
   </script>
