@@ -1,0 +1,18 @@
+/* Shared blue baby-shower nursery backdrop and right-aligned mobile menu control. */
+body {
+  background-image: url("/images/nursery-background.svg") !important;
+  background-color: #b9ddf3 !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+@media (max-width: 768px) {
+  nav .hamburger {
+    width: auto;
+    margin-left: auto;
+    flex: 0 0 auto;
+    align-self: center;
+  }
+}
