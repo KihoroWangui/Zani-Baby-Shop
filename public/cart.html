@@ -7,6 +7,35 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
   <style>
+    body {
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1 0 auto;
+      width: 100%;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav .hamburger {
+      display: none;
+      padding: 8px;
+      border: 0;
+      background: transparent;
+      color: #fff;
+      font-size: 1.65rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
     .cart-section {
       box-sizing: border-box;
       width: min(100% - 32px, 1100px);
@@ -45,7 +74,6 @@
 
     table {
       width: 100%;
-      min-width: 620px;
       border-collapse: collapse;
       background-color: #fff;
     }
@@ -95,6 +123,7 @@
     }
 
     .remove-btn {
+      width: auto;
       padding: 8px 12px;
       border: 1px solid #f1c8cc;
       border-radius: 8px;
@@ -122,6 +151,7 @@
 
     #checkout-btn {
       display: block;
+      width: auto;
       margin: 18px 0 0 auto;
       padding: 13px 22px;
       border: 0;
@@ -142,7 +172,8 @@
     }
 
     #checkout-btn:focus-visible,
-    .remove-btn:focus-visible {
+    .remove-btn:focus-visible,
+    nav .hamburger:focus-visible {
       outline: 3px solid rgba(49, 88, 184, 0.3);
       outline-offset: 3px;
     }
@@ -153,20 +184,156 @@
       cursor: not-allowed;
     }
 
-    @media (max-width: 600px) {
+    footer {
+      flex-shrink: 0;
+      margin-top: auto;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        min-height: 60px;
+      }
+
+      nav .hamburger {
+        display: block;
+      }
+
+      nav ul {
+        flex-direction: column;
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        width: 100%;
+        gap: 0;
+        padding: 8px 16px 14px;
+        background: #100;
+        box-shadow: 0 10px 16px rgba(0, 0, 0, 0.18);
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      nav ul li a {
+        display: flex;
+        justify-content: center;
+        padding: 12px;
+      }
+
       .cart-section {
         width: min(100% - 20px, 1100px);
-        margin: 24px auto;
+        margin: 24px auto 40px;
         padding: 22px 16px;
         border-radius: 14px;
       }
 
-      #total-amount {
+      #cart-container {
+        overflow: visible;
+        border: 0;
+        background: transparent;
+      }
+
+      #cart-container:has(p) {
+        padding: 24px 14px;
+        border: 1px solid #e6e9ef;
+        border-radius: 12px;
+        background: #fff;
+      }
+
+      table,
+      tbody {
+        display: block;
+        width: 100%;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tr {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 12px;
+        margin-bottom: 14px;
+        padding: 8px 14px;
+        border: 1px solid #e6e9ef;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 4px 12px rgba(30, 41, 59, 0.05);
+      }
+
+      tr:last-child {
+        margin-bottom: 0;
+      }
+
+      th {
+        display: none;
+      }
+
+      td {
+        display: flex;
+        min-width: 0;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 11px 0;
+        border-bottom: 1px solid #edf0f4;
+        text-align: right;
+        font-size: 0.9rem;
+      }
+
+      td::before {
+        content: attr(data-label);
+        color: #697586;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
         text-align: left;
+        text-transform: uppercase;
+      }
+
+      td:last-child,
+      td:nth-last-child(2) {
+        border-bottom: 0;
+      }
+
+      input[type="number"] {
+        width: 64px;
+        padding: 7px 5px;
+      }
+
+      .remove-btn {
+        padding: 7px 9px;
+      }
+
+      #total-amount {
+        margin-top: 20px;
+        text-align: right;
       }
 
       #checkout-btn {
         width: 100%;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .cart-section {
+        width: calc(100% - 16px);
+        padding: 20px 12px;
+      }
+
+      tr {
+        grid-template-columns: 1fr;
+      }
+
+      td:nth-last-child(2) {
+        border-bottom: 1px solid #edf0f4;
+      }
+
+      td:last-child {
+        border-bottom: 0;
       }
     }
   </style>
@@ -176,7 +343,10 @@
     <a href="/" class="navbar-logo">
       <img src="images/logo.png" alt="Logo" />
     </a>
-    <ul>
+    <button class="hamburger" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="cart-nav-menu">
+      <i class="bi bi-list" aria-hidden="true"></i>
+    </button>
+    <ul id="cart-nav-menu">
       <li><a href="index.html">Home</a></li>
       <li><a href="products.html">Products</a></li>
       <li><a href="about.html">About</a></li>
@@ -203,6 +373,24 @@
   <script>
     const API_URL = "https://clocks-park-values-southern.trycloudflare.com";
 
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.getElementById('cart-nav-menu');
+
+    hamburger.addEventListener('click', () => {
+      const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+      hamburger.setAttribute('aria-expanded', String(!isExpanded));
+      hamburger.setAttribute('aria-label', isExpanded ? 'Open navigation menu' : 'Close navigation menu');
+      navMenu.classList.toggle('active');
+    });
+
+    document.addEventListener('click', event => {
+      if (!navMenu.contains(event.target) && !hamburger.contains(event.target)) {
+        navMenu.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
+        hamburger.setAttribute('aria-label', 'Open navigation menu');
+      }
+    });
+
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     const container = document.getElementById('cart-container');
     const totalDisplay = document.getElementById('total-amount');
@@ -216,21 +404,21 @@
         return;
       }
 
-      let table = '<table><tr><th>Product</th><th>Price</th><th>Quantity</th><th>Subtotal</th><th>Remove</th></tr>';
+      let table = '<table><thead><tr><th>Product</th><th>Price</th><th>Quantity</th><th>Subtotal</th><th>Remove</th></tr></thead><tbody>';
       cart.forEach((item, index) => {
         if(!item.quantity) item.quantity = 1;
         const subtotal = item.price * item.quantity;
         table += `
           <tr>
-            <td>${item.name}</td>
-            <td>KSh ${item.price}</td>
-            <td><input type="number" min="1" value="${item.quantity}" data-index="${index}"></td>
-            <td>KSh ${subtotal}</td>
-            <td><button data-index="${index}" class="remove-btn">Remove</button></td>
+            <td data-label="Product">${item.name}</td>
+            <td data-label="Price">KSh ${item.price}</td>
+            <td data-label="Quantity"><input type="number" min="1" value="${item.quantity}" data-index="${index}" aria-label="Quantity for ${item.name}"></td>
+            <td data-label="Subtotal">KSh ${subtotal}</td>
+            <td data-label="Remove"><button data-index="${index}" class="remove-btn">Remove</button></td>
           </tr>
         `;
       });
-      table += '</table>';
+      table += '</tbody></table>';
       container.innerHTML = table;
 
       updateTotal();
