@@ -184,6 +184,99 @@
       cursor: not-allowed;
     }
 
+    .phone-dialog {
+      width: min(100% - 32px, 420px);
+      padding: 0;
+      border: 0;
+      border-radius: 18px;
+      color: #263445;
+      box-shadow: 0 24px 70px rgba(15, 23, 42, 0.3);
+    }
+
+    .phone-dialog::backdrop {
+      background: rgba(15, 23, 42, 0.58);
+      backdrop-filter: blur(3px);
+    }
+
+    .phone-dialog-content {
+      padding: 30px;
+    }
+
+    .phone-dialog h2 {
+      margin: 0 0 8px;
+      color: #202b3c;
+      font-size: 1.4rem;
+      text-align: left;
+    }
+
+    .phone-dialog p {
+      margin: 0 0 20px;
+      color: #697586;
+      line-height: 1.5;
+      text-align: left;
+    }
+
+    .phone-dialog label {
+      display: block;
+      margin-bottom: 7px;
+      color: #344054;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    #phone-number {
+      box-sizing: border-box;
+      width: 100%;
+      margin: 0;
+      padding: 12px 14px;
+      border: 1px solid #d6dbe4;
+      border-radius: 9px;
+      color: #263445;
+      font: inherit;
+    }
+
+    #phone-number:focus {
+      border-color: #5377d4;
+      outline: 3px solid rgba(83, 119, 212, 0.15);
+    }
+
+    .phone-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .phone-dialog-actions button {
+      width: auto;
+      min-height: 44px;
+      padding: 10px 16px;
+      border-radius: 9px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    #cancel-payment {
+      border: 1px solid #d6dbe4;
+      background: #fff;
+      color: #475467;
+    }
+
+    #submit-phone {
+      border: 0;
+      background: #3158b8;
+      color: #fff;
+    }
+
+    #cancel-payment:hover {
+      background: #f7f8fb;
+    }
+
+    #submit-phone:hover {
+      background: #24489f;
+    }
+
     footer {
       flex-shrink: 0;
       margin-top: auto;
@@ -335,6 +428,10 @@
       td:last-child {
         border-bottom: 0;
       }
+
+      .phone-dialog-content {
+        padding: 24px 20px;
+      }
     }
   </style>
 </head>
@@ -370,6 +467,19 @@
     </div>
   </footer>
 
+  <dialog class="phone-dialog" id="phone-dialog" aria-labelledby="phone-dialog-title">
+    <form class="phone-dialog-content" id="phone-form">
+      <h2 id="phone-dialog-title">Enter your phone number</h2>
+      <p>We’ll send a payment request to your phone. Enter the number registered with M-Pesa.</p>
+      <label for="phone-number">Phone number</label>
+      <input id="phone-number" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="2547XXXXXXXX" required />
+      <div class="phone-dialog-actions">
+        <button id="cancel-payment" type="button">Cancel</button>
+        <button id="submit-phone" type="submit">Continue</button>
+      </div>
+    </form>
+  </dialog>
+
   <script>
     const API_URL = "https://clocks-park-values-southern.trycloudflare.com";
 
@@ -395,6 +505,10 @@
     const container = document.getElementById('cart-container');
     const totalDisplay = document.getElementById('total-amount');
     const checkoutBtn = document.getElementById('checkout-btn');
+    const phoneDialog = document.getElementById('phone-dialog');
+    const phoneForm = document.getElementById('phone-form');
+    const phoneInput = document.getElementById('phone-number');
+    const cancelPaymentBtn = document.getElementById('cancel-payment');
 
     function renderCart() {
       if(cart.length === 0) {
@@ -440,7 +554,7 @@
         });
       });
 
-      document.querySelectorAll('input[type="number"]').forEach(input => {
+      document.querySelectorAll('#cart-container input[type="number"]').forEach(input => {
         input.addEventListener('change', () => {
           const index = parseInt(input.dataset.index);
           const value = parseInt(input.value);
@@ -452,13 +566,35 @@
       });
     }
 
-    checkoutBtn.addEventListener('click', async () => {
+    checkoutBtn.addEventListener('click', () => {
       if(cart.length === 0) return alert("Your cart is empty!");
+      phoneInput.value = '';
+      phoneDialog.showModal();
+      phoneInput.focus();
+    });
 
+    cancelPaymentBtn.addEventListener('click', () => {
+      phoneDialog.close();
+      alert("Payment cancelled. Phone number is required.");
+    });
+
+    phoneDialog.addEventListener('click', event => {
+      if (event.target === phoneDialog) {
+        phoneDialog.close();
+        alert("Payment cancelled. Phone number is required.");
+      }
+    });
+
+    phoneForm.addEventListener('submit', async event => {
+      event.preventDefault();
+      const phone = phoneInput.value.trim();
+      if (!phone) {
+        alert("Payment cancelled. Phone number is required.");
+        return;
+      }
+
+      phoneDialog.close();
       const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-      const phone = prompt("Enter your phone number (e.g., 2547XXXXXXXX):");
-      if (!phone) return alert("Payment cancelled. Phone number is required.");
 
       try {
         const response = await fetch(`${API_URL}/stkpush`, {
